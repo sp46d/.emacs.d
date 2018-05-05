@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: r
+# key: <r
+# --
+#+BEGIN_SRC R :results ${1:output org drawer}
+$0
+#+END_SRC

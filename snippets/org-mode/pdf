@@ -1,0 +1,18 @@
+# -*- mode: snippet -*-
+# name: pdf
+# key: pdf
+# --
+#+LATEX_HEADER: \usepackage{graphicx}
+#+LATEX_HEADER: \usepackage{amssymb}
+#+LATEX_HEADER: \usepackage{verbatim}
+#+LATEX_HEADER: \usepackage{amsmath}
+#+LATEX_HEADER: \usepackage{amsfonts}
+#+LATEX_HEADER: \usepackage{bm}
+#+LATEX_HEADER: \usepackage{apacite}
+#+LATEX_HEADER: \usepackage{multirow}
+#+LATEX_HEADER: \usepackage[margin = 1in]{geometry}
+#+OPTIONS:  toc:nil date:nil
+#+TITLE: 	$1
+#+AUTHOR:	Sanghyuk Park
+
+$0

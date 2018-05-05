@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: ip
+# key: ip
+# --
+#+BEGIN_SRC ipython :session :results ${1:raw drawer}
+$0
+#+END_SRC
+

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: laheader
+# key: laheader
+# --
+#+LaTex_HEADER: $0

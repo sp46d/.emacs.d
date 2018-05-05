@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: tbnaem
+# key: tbname
+# --
+#+TBLNAME: $0
