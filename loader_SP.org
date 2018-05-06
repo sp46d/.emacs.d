@@ -531,6 +531,17 @@ Jump to frequently-accessed files (C-x r j: Jump to the register)
  ;;   (load-theme 'panda t))
 #+END_SRC
 
+** Mode line theme
+
+#+BEGIN_SRC emacs-lisp
+(use-package smart-mode-line 
+  :ensure t
+  :config
+  (progn
+    (setq sml/theme 'respectful)
+    (sml/setup)))
+#+END_SRC
+
 * Packages
 ** Ace window
 
