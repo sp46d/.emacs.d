@@ -1,4 +1,4 @@
-(setq user-full-name "Sanghyuk Will Park")
+(setq user-full-name "Sanghyuk Park")
 (setq user-mail-address "sanghyuk.park85@gmail.com")
 
 (require 'package)
@@ -76,7 +76,7 @@
 (put 'dired-find-alternate-file 'disabled nil)
 
 ;; (set-face-attribute 'default nil :font "Menlo-12")
-(setq-default line-spacing 0.2)
+(setq-default line-spacing 0.15)
 
 ;; (set-face-attribute 'default nil :font "Source Code pro-14")
 (set-face-attribute 'default nil :font "InconsolataGo-14")
@@ -719,7 +719,7 @@ skip typos you don't want to fix with 'SPC', and you can abort completely with '
   (add-hook 'python-mode-hook 'elpy-mode)
   (add-hook 'inferior-python-mode-hook 'python-shell-switch-to-shell)
   (setq python-shell-interpreter "python"
-    	python-shell-interpreter-args "-i")
+	python-shell-interpreter-args "-i")
   ;; (setq python-shell-interpreter "ipython"
       ;; 	  python-shell-interpreter-args "-i --simple-prompt")
       )
