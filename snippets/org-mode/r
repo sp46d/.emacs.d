@@ -2,6 +2,7 @@
 # name: r
 # key: <r
 # --
-#+BEGIN_SRC R :results ${1:output org drawer}
+#+BEGIN_SRC R :session 
 $0
 #+END_SRC
+
