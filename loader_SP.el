@@ -293,12 +293,12 @@ skip typos you don't want to fix with 'SPC', and you can abort completely with '
                    (abbreviate-file-name (buffer-file-name))
                  "%b"))))
 
-(use-package solarized-theme
-  :ensure t
-  :init 
-  (progn (setq solarized-use-variable-pitch nil)
-         (setq solarized-scale-org-headlines nil)
-  		 (load-theme 'solarized-light t)))
+;; (use-package solarized-theme
+;;   :ensure t
+;;   :init 
+;;   (progn (setq solarized-use-variable-pitch nil)
+;;          (setq solarized-scale-org-headlines nil)
+;; 		   (load-theme 'solarized-light t)))
     	 ;; (load-theme 'solarized-dark t)))
 
 
@@ -315,10 +315,10 @@ skip typos you don't want to fix with 'SPC', and you can abort completely with '
          ;;   '(linum ((t (:foreground "#586e75" :underline nil :slant normal :weight normal :height 1.0 :width normal))))
          ;;   '(linum-highlight-face ((t (:inherit default :background "#268bd2" :foreground "#002b36")))))
 
-;; (use-package zenburn-theme
-;;   :ensure t
-;;   :init
-;;   (load-theme 'zenburn t))
+(use-package zenburn-theme
+  :ensure t
+  :init
+  (load-theme 'zenburn t))
 
 ;; (use-package anti-zenburn-theme 
 ;;   :ensure t
@@ -461,6 +461,14 @@ skip typos you don't want to fix with 'SPC', and you can abort completely with '
 		 ("C-)" . er/mark-outside-pairs)
 		 ("C-{" . er/mark-inside-quotes)
 		 ("C-}" . er/mark-outside-quotes)))
+
+(use-package google-this
+  :ensure t
+  :bind (("C-c / t" . google-this)
+         ("C-c / l" . google-this-line)
+         ("C-c / w" . google-this-word)
+         ("C-c / e" . google-this-error)
+         ("C-c / r" . google-this-region)))
 
 ;; (use-package iedit
 ;;   :ensure t)
@@ -736,166 +744,3 @@ skip typos you don't want to fix with 'SPC', and you can abort completely with '
   :config
   (add-hook 'python-mode-hook 'anaconda-mode)
   (add-hook 'python-mode-hook 'anaconda-eldoc-mode))
-
-;; ; See https://emacs.stackexchange.com/questions/5828/why-do-i-have-to-add-each-package-to-load-path-or-problem-with-require-packag
-;; ; Manually load package instead of waiting until after init.el is loaded
-;; (package-initialize)
-;; ; Disable loading package again after init.el
-;; (setq package-enable-at-startup nil)
-
-;; ; Enable "package", for installing packages
-;; ; Add some common package repositories
-;; (require 'package)
-;; (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-;; (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
-;; (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
-;; (add-to-list 'package-archives '("elpy" . "https://jorgenschaefer.github.io/packages/"))
-
-;; ; Use "package" to install "use-package", a better package management and config system
-;; (unless (package-installed-p 'use-package)
-;;   (package-refresh-contents)
-;;   (package-install 'use-package))
-
-;; (eval-when-compile
-;;   (require 'use-package))
-
-;; ; Make OS shell path available in emacs exec path
-;; (use-package exec-path-from-shell
-;;   :ensure t
-;;   :config (exec-path-from-shell-copy-env "PATH"))
-
-;; ; Create a 80-character line marker
-;; ; With a work-around so that fill-column-indicator works with company mode
-;; ; https://emacs.stackexchange.com/questions/147/how-can-i-get-a-ruler-at-column-80
-;; (use-package fill-column-indicator
-;;   :ensure t
-;;   :config
-;;   (setq fci-rule-column 80)
-;;   (add-hook 'prog-mode-hook 'fci-mode))
-
-;; (defvar-local company-fci-mode-on-p nil)
-
-;; (defun company-turn-off-fci (&rest ignore)
-;;   (when (boundp 'fci-mode)
-;;     (setq company-fci-mode-on-p fci-mode)
-;;     (when fci-mode (fci-mode -1))))
-
-;; (defun company-maybe-turn-on-fci (&rest ignore)
-;;   (when company-fci-mode-on-p (fci-mode 1)))
-
-;; (add-hook 'company-completion-started-hook 'company-turn-off-fci)
-;; (add-hook 'company-completion-finished-hook 'company-maybe-turn-on-fci)
-;; (add-hook 'company-completion-cancelled-hook 'company-maybe-turn-on-fci)
-
-;; ; Set up auctex for Latex in Emacs
-;; ; Point auctex to my central .bib file
-;; ;; (use-package tex
-;; ;;   :ensure auctex
-;; ;;   :config
-;; ;;   (setq Tex-auto-save t)
-;; ;;   (setq Tex-parse-self t)
-;; ;;   (setq TeX-save-query nil)
-;; ;;   (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-;; ;;   (setq reftex-plug-into-AUCTeX t)
-;; ;;   (setq reftex-default-bibliography '("/home/anh/texmf/bibtex/bib/local/library.bib")))
-
-;; ; Set up elpy for Python in Emacs
-;; (use-package elpy
-;;   :ensure t
-;;   :pin elpy
-;;   :config
-;;   (elpy-enable)
-;;   ;; Enable elpy in a Python mode
-;;   (add-hook 'python-mode-hook 'elpy-mode)
-;;   (setq elpy-rpc-backend "jedi")
-;;   ;; Open the Python shell in a buffer after sending code to it
-;;   (add-hook 'inferior-python-mode-hook 'python-shell-switch-to-shell)
-;;   ;; Use IPython as the default shell, with a workaround to accommodate IPython 5
-;;   ;; https://emacs.stackexchange.com/questions/24453/weird-shell-output-when-using-ipython-5  (setq python-shell-interpreter "ipython")
-;;   (setq python-shell-interpreter-args "--simple-prompt -i")
-;;   ;; Enable pyvenv, which manages Python virtual environments
-;;   (pyvenv-mode 1)
-;;   ;; Tell Python debugger (pdb) to use the current virtual environment
-;;   ;; https://emacs.stackexchange.com/questions/17808/enable-python-pdb-on-emacs-with-virtualenv
-;;   (setq gud-pdb-command-name "python -m pdb "))
-
-;; ; Set up projectile, i.e. package management + helm, i.e. autocomplete
-;; ; Tutorial - recommended: https://tuhdo.github.io/helm-projectile.html
-;; (use-package projectile
-;;   :ensure t
-;;   :config
-;;   (projectile-global-mode)
-;;   (setq projectile-completion-system 'helm)
-;;   (setq projectile-switch-project-action 'helm-projectile))
-
-;; (use-package helm-projectile
-;;   :ensure t
-;;   :config
-;;   (helm-projectile-on))
-
-;; (use-package helm-config
-;;   :ensure helm
-;;   :config
-;;   (helm-mode 1)
-;;   (global-set-key (kbd "M-x") 'helm-M-x)
-;;   (global-set-key (kbd "C-x C-f") 'helm-find-files)) 
-
-;; ; Set up company, i.e. code autocomplete
-;; (use-package company
-;;   :ensure t
-;;   :config
-;;   ;; Enable company mode everywhere
-;;   (add-hook 'after-init-hook 'global-company-mode)
-;;   ;; Set up TAB to manually trigger autocomplete menu
-;;   (define-key company-mode-map (kbd "TAB") 'company-complete)
-;;   (define-key company-active-map (kbd "TAB") 'company-complete-common)
-;;   ;; Set up M-h to see the documentation for items on the autocomplete menu
-;;   (define-key company-active-map (kbd "M-h") 'company-show-doc-buffer))
-
-;; ; Set up company-jedi, i.e. tell elpy to use company autocomplete backend
-;; (use-package company-jedi
-;;   :ensure t
-;;   :config
-;;   (defun my/python-mode-hook ()
-;;     (add-to-list 'company-backends 'company-jedi))
-;;   (add-hook 'python-mode-hook 'my/python-mode-hook))
-
-;; ; Set up ESS, i.e. Statistics in Emacs, R, Stata, etc.
-;; (use-package ess-site
-;;   :ensure ess
-;;   :config
-;;   (ess-toggle-underscore nil) ; http://stackoverflow.com/questions/2531372/how-to-stop-emacs-from-replacing-underbar-with-in-ess-mode
-;;   (setq ess-fancy-comments nil) ; http://stackoverflow.com/questions/780796/emacs-ess-mode-tabbing-for-comment-region
-;;   ; Make ESS use RStudio's indenting style
-;;   (add-hook 'ess-mode-hook (lambda() (ess-set-style 'RStudio)))
-;;   ; Make ESS use more horizontal screen
-;;   ; http://stackoverflow.com/questions/12520543/how-do-i-get-my-r-buffer-in-emacs-to-occupy-more-horizontal-space
-;;   (add-hook 'ess-R-post-run-hook 'ess-execute-screen-options) 
-;;   (define-key inferior-ess-mode-map "\C-cw" 'ess-execute-screen-options)
-;;   ; Add path to Stata to Emacs' exec-path so that Stata can be found
-;;   (setq exec-path (append exec-path '("/usr/local/share/emacs/site-lisp/ess")))
-;;   (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/ess"))
-
-;; ; Set up markdown in Emacs
-;; ; Tutorial: http://jblevins.org/projects/markdown-mode/
-;; (use-package pandoc-mode
-;;   :ensure t
-;;   :config
-;;   (add-hook 'markdown-mode-hook 'pandoc-mode))
-
-;; (add-hook 'text-mode-hook (lambda() (flyspell-mode 1)))
-
-;; (use-package markdown-mode
-;;   :ensure t
-;;   :commands (markdown-mode gfm-mode)
-;;   :mode (("README\\.md\\'" . gfm-mode)
-;;          ("\\.md\\'" . markdown-mode)
-;;          ("\\.markdown\\'" . markdown-mode))
-;;   :init (setq markdown-command "pandoc"))
-
-;; ; C-n add new lines at the end of buffer
-;; (setq next-line-add-newlines t)
-;; ; open emacs full screen
-;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
-;; ; Make Emacs highlight paired parentheses
-;; (show-paren-mode 1)
