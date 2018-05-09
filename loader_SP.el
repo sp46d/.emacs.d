@@ -17,6 +17,9 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
+(use-package dired
+  :bind ("C-c d w" . wdired-change-to-wdired-mode))
+
 (global-set-key (kbd "C-x d") 'dired)
 (global-set-key (kbd "C-x C-d") 'dired)
 (global-set-key (kbd "C-c d f") 'delete-frame)
@@ -141,7 +144,8 @@ This is useful when followed by an immediate kill."
 
 (set-register ?i '(file . "~/.emacs.d/init.el"))
 (set-register ?l '(file . "~/.emacs.d/loader_SP.org"))
-(set-register ?b '(file . "~/Dropbox/org/BeOrg/inbox.org"))
+(set-register ?a '(file . "~/Dropbox/org/BeOrg/inbox.org"))
+(set-register ?b '(file . "~/Dropbox/Bibliography/references.bib"))
 (set-register ?p '(file . "~/Dropbox/org/BeOrg/projects.org"))
 (set-register ?n '(file . "~/Dropbox/org/BeOrg/notes.org"))
 (set-register ?r '(file . "~/Dropbox/org/BeOrg/reading_list.org"))
@@ -293,12 +297,12 @@ skip typos you don't want to fix with 'SPC', and you can abort completely with '
                    (abbreviate-file-name (buffer-file-name))
                  "%b"))))
 
-;; (use-package solarized-theme
-;;   :ensure t
-;;   :init 
-;;   (progn (setq solarized-use-variable-pitch nil)
-;;          (setq solarized-scale-org-headlines nil)
-;; 		   (load-theme 'solarized-light t)))
+(use-package solarized-theme
+  :ensure t
+  :init 
+  (progn (setq solarized-use-variable-pitch nil)
+         (setq solarized-scale-org-headlines nil)
+  		 (load-theme 'solarized-light t)))
     	 ;; (load-theme 'solarized-dark t)))
 
 
@@ -315,10 +319,10 @@ skip typos you don't want to fix with 'SPC', and you can abort completely with '
          ;;   '(linum ((t (:foreground "#586e75" :underline nil :slant normal :weight normal :height 1.0 :width normal))))
          ;;   '(linum-highlight-face ((t (:inherit default :background "#268bd2" :foreground "#002b36")))))
 
-(use-package zenburn-theme
-  :ensure t
-  :init
-  (load-theme 'zenburn t))
+;; (use-package zenburn-theme
+;;   :ensure t
+;;   :init
+;;   (load-theme 'zenburn t))
 
 ;; (use-package anti-zenburn-theme 
 ;;   :ensure t
@@ -457,18 +461,18 @@ skip typos you don't want to fix with 'SPC', and you can abort completely with '
 (use-package expand-region
   :ensure t
   :bind (("C-=" . er/expand-region)
-		 ("C-(" . er/mark-inside-pairs)
-		 ("C-)" . er/mark-outside-pairs)
-		 ("C-{" . er/mark-inside-quotes)
-		 ("C-}" . er/mark-outside-quotes)))
+		 ("C-c 9" . er/mark-inside-pairs)
+		 ("C-c 0" . er/mark-outside-pairs)
+		 ("C-c i i" . er/mark-inside-quotes)
+		 ("C-c i o}" . er/mark-outside-quotes)))
 
 (use-package google-this
   :ensure t
-  :bind (("C-c / t" . google-this)
-         ("C-c / l" . google-this-line)
-         ("C-c / w" . google-this-word)
-         ("C-c / e" . google-this-error)
-         ("C-c / r" . google-this-region)))
+  :bind (("C-c g t" . google-this)
+         ("C-c g l" . google-this-line)
+         ("C-c g w" . google-this-word)
+         ("C-c g e" . google-this-error)
+         ("C-c g r" . google-this-region)))
 
 ;; (use-package iedit
 ;;   :ensure t)
@@ -544,6 +548,8 @@ skip typos you don't want to fix with 'SPC', and you can abort completely with '
 ;; 		(lambda () ""))
 ;;   (setq helm-swoop-speed-or-color t))
 
+(use-package interleave :ensure t)
+
 (use-package magit 
   :ensure t
   :bind ("C-x g" . magit-status))
@@ -571,7 +577,7 @@ skip typos you don't want to fix with 'SPC', and you can abort completely with '
   ;; (add-to-list 'auto-mode-alist '(".*/[0-9]*$" . org-mode)))
 
 (use-package reveal-in-osx-finder :ensure t
-  :bind ("C-c q" . reveal-in-osx-finder))
+  :bind ("C-c o" . reveal-in-osx-finder))
 
 (use-package yasnippet
   :ensure t
@@ -705,6 +711,45 @@ skip typos you don't want to fix with 'SPC', and you can abort completely with '
 (use-package cdlatex :ensure t
   :config
   (add-hook 'org-mode-hook 'turn-on-org-cdlatex))
+
+;; see org-ref for use of these variables
+(setq reftex-default-bibliography '("~/Dropbox/bibliography/references.bib"))
+(setq org-ref-default-bibliography '("~/Dropbox/bibliography/references.bib")
+      org-ref-pdf-directory "~/Dropbox/bibliography/papers/")
+
+;; Org-ref notes configuration
+;; Tell org-ref to let helm-bibtex find notes for it
+(setq org-ref-notes-function
+      (lambda (thekey)
+        (let ((bibtex-completion-bibliography (org-ref-find-bibliography)))
+          (bibtex-completion-edit-notes
+           (list (car (org-ref-get-bibtex-key-and-file thekey)))))))
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            (define-key org-mode-map  (kbd "C-c i n") 'org-ref-open-notes-at-point)))
+
+;; Helm-bibtex configuration
+(use-package helm-bibtex
+  :ensure t
+  :bind ("C-c h b" . helm-bibtex)
+  :init
+  (setq helm-bibtex-full-frame nil)
+  (setq bibtex-completion-notes-path "~/Dropbox/bibliography/Notes/")
+  (setq bibtex-completion-bibliography '("~/Dropbox/bibliography/references.bib")
+        bibtex-completion-library-path '("~/Dropbox/bibliography/papers/"))
+  (setq bibtex-completion-pdf-open-function
+        (lambda (fpath)
+          (call-process "open" nil 0 nil "-a" "/Applications/Skim.app" fpath)))
+  (setq helm-bibtex-notes-template-multiple-files
+      (format
+       "#+TITLE: Notes on: ${title}\n#+INTERLEAVE_PDF: ~/Dropbox/Bibliography/Papers/${=key=}.pdf\n#+PUB_AUTHORS:\t${author}\n#+PUB_YEAR: \t${year}\n\n")))
+
+(progn
+  (setq bibtex-completion-pdf-symbol "f")
+  (setq bibtex-completion-notes-symbol "n")
+  (setq bibtex-completion-display-formats
+        '((t . "${=type=:7}: ${author: 20} (${year:4}) ${title:*} :${=has-pdf=:1}${=has-note=:1}:"))))
 
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp/ess")
 (add-hook 'ess-mode-hook 'company-mode)
