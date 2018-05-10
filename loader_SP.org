@@ -258,7 +258,6 @@ Jump to frequently-accessed files (C-x r j: Jump to the register)
 (set-register ?b '(file . "~/Dropbox/Bibliography/references.bib"))
 (set-register ?p '(file . "~/Dropbox/org/BeOrg/projects.org"))
 (set-register ?n '(file . "~/Dropbox/org/BeOrg/notes.org"))
-(set-register ?r '(file . "~/Dropbox/org/BeOrg/reading_list.org"))
 (set-register ?t '(file . "~/Dropbox/org/BeOrg/todo.org"))
 #+END_SRC
 
