@@ -79,10 +79,12 @@
 (put 'dired-find-alternate-file 'disabled nil)
 
 ;; (set-face-attribute 'default nil :font "Menlo-12")
-(setq-default line-spacing 0.15)
+(setq-default line-spacing 0.2)
 
 ;; (set-face-attribute 'default nil :font "Source Code pro-14")
 (set-face-attribute 'default nil :font "InconsolataGo-14")
+;; (set-face-attribute 'default nil :font "DejaVu Sans Mono-12")
+;; (set-face-attribute 'default nil :font "Hack-12")
 
 (add-hook 'dired-mode-hook 'hl-line-mode)
 (add-hook 'package-menu-mode-hook 'hl-line-mode)
@@ -148,7 +150,6 @@ This is useful when followed by an immediate kill."
 (set-register ?b '(file . "~/Dropbox/Bibliography/references.bib"))
 (set-register ?p '(file . "~/Dropbox/org/BeOrg/projects.org"))
 (set-register ?n '(file . "~/Dropbox/org/BeOrg/notes.org"))
-(set-register ?r '(file . "~/Dropbox/org/BeOrg/reading_list.org"))
 (set-register ?t '(file . "~/Dropbox/org/BeOrg/todo.org"))
 
 (setq ispell-program-name "aspell")
@@ -618,6 +619,7 @@ skip typos you don't want to fix with 'SPC', and you can abort completely with '
        'org-babel-load-languages
        '((R . t)
          (latex . t)
+         (python . t)
          (ipython . t)
          (shell . t)))))
     ;; ================ org-agenda =================
@@ -625,7 +627,6 @@ skip typos you don't want to fix with 'SPC', and you can abort completely with '
     (setq org-agenda-files
           '("~/Dropbox/org/BeOrg/inbox.org"
             "~/Dropbox/org/BeOrg/projects.org"
-            "~/Dropbox/org/BeOrg/reading_list.org"
             "~/Dropbox/org/BeOrg/todo.org"
             "~/Dropbox/org/BeOrg/notes.org"
             "~/Dropbox/org/appt_gcal.org"
@@ -644,7 +645,7 @@ skip typos you don't want to fix with 'SPC', and you can abort completely with '
     ;; =============== org-capture ==================
     (setq org-capture-templates
           '(("i" "Inbox" entry (file "~/Dropbox/org/BeOrg/inbox.org")
-             "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:")
+             "* %?\n:PROPERTIES:\n:CREATED: %u\n:END:")
             ("a" "Appointment" entry (file  "~/Dropbox/org/appt_gcal.org")
              "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
             ("h" "Honey" entry (file  "~/Dropbox/org/honey_gcal.org")

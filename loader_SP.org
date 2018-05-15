@@ -134,10 +134,12 @@ Adaptive screen size depending on pixel of display
 
 #+BEGIN_SRC emacs-lisp
 ;; (set-face-attribute 'default nil :font "Menlo-12")
-(setq-default line-spacing 0.15)
+(setq-default line-spacing 0.2)
 
 ;; (set-face-attribute 'default nil :font "Source Code pro-14")
 (set-face-attribute 'default nil :font "InconsolataGo-14")
+;; (set-face-attribute 'default nil :font "DejaVu Sans Mono-12")
+;; (set-face-attribute 'default nil :font "Hack-12")
 #+END_SRC
 
 ** Highlight line for certain modes
@@ -898,6 +900,7 @@ Switch windows and frames easily
          'org-babel-load-languages
          '((R . t)
            (latex . t)
+           (python . t)
            (ipython . t)
            (shell . t)))))
       ;; ================ org-agenda =================
@@ -905,7 +908,6 @@ Switch windows and frames easily
       (setq org-agenda-files
             '("~/Dropbox/org/BeOrg/inbox.org"
               "~/Dropbox/org/BeOrg/projects.org"
-              "~/Dropbox/org/BeOrg/reading_list.org"
               "~/Dropbox/org/BeOrg/todo.org"
               "~/Dropbox/org/BeOrg/notes.org"
               "~/Dropbox/org/appt_gcal.org"
@@ -924,7 +926,7 @@ Switch windows and frames easily
       ;; =============== org-capture ==================
       (setq org-capture-templates
             '(("i" "Inbox" entry (file "~/Dropbox/org/BeOrg/inbox.org")
-               "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:")
+               "* %?\n:PROPERTIES:\n:CREATED: %u\n:END:")
               ("a" "Appointment" entry (file  "~/Dropbox/org/appt_gcal.org")
                "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
               ("h" "Honey" entry (file  "~/Dropbox/org/honey_gcal.org")
