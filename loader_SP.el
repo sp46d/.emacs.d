@@ -303,7 +303,7 @@ skip typos you don't want to fix with 'SPC', and you can abort completely with '
   :init 
   (progn (setq solarized-use-variable-pitch nil)
          (setq solarized-scale-org-headlines nil)
-  		 (load-theme 'solarized-light t)))
+  	       (load-theme 'solarized-light t)))
     	 ;; (load-theme 'solarized-dark t)))
 
 
@@ -764,6 +764,20 @@ skip typos you don't want to fix with 'SPC', and you can abort completely with '
 (add-to-list
  'auto-mode-alist
  '("\\.bug$" . R-mode))
+
+(setq ess-R-font-lock-keywords
+    '((ess-R-fl-keyword:modifiers . t)
+     (ess-R-fl-keyword:fun-defs . t)
+     (ess-R-fl-keyword:keywords . t)
+     (ess-R-fl-keyword:assign-ops)
+     (ess-R-fl-keyword:constants . t)
+     (ess-fl-keyword:fun-calls . t)
+     (ess-fl-keyword:numbers)
+     (ess-fl-keyword:operators)
+     (ess-fl-keyword:delimiters)
+     (ess-fl-keyword:=)
+     (ess-R-fl-keyword:F&T)
+     (ess-R-fl-keyword:%op%)))
 
 (use-package elpy
   :ensure t
