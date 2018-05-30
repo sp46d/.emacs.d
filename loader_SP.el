@@ -4,6 +4,8 @@
 (require 'package)
 (setq exec-path (cons "/usr/local/bin" exec-path))
 (add-to-list 'load-path "/usr/local/share/emacs/site-lisp")
+(setq scimax-dir "~/.emacs.d/scimax")
+(add-to-list 'load-path "~/.emacs.d/scimax")
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
@@ -75,7 +77,7 @@
 (setq mac-command-modifier 'meta)
 (setq mac-option-modifier 'alt)
 
-(setq default-directory "~/Dropbox/")
+(setq default-directory "~/")
 (put 'dired-find-alternate-file 'disabled nil)
 
 ;; (set-face-attribute 'default nil :font "Menlo-12")
@@ -601,76 +603,27 @@ skip typos you don't want to fix with 'SPC', and you can abort completely with '
 ;;   :after pdf-tools)
 
 (use-package org 
-    :ensure t
-    :bind (("C-c l" . org-store-link)
-           ("C-c a" . org-agenda)
-           ("C-c b" . org-iswitchb)
-           ("C-c p" . org-set-property)
-           ("C-c c" . org-capture)
-           ("C-c t" . org-babel-tangle))
-    :config
-    ;; When add files recursively to the agenda
-    ;; (load-library "find-lisp")
-    ;; (setq org-agenda-files (find-lisp-find-files "~/Dropbox/Emacs" "\.org$"))
-    (progn
-      (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
-      (add-hook 'org-mode-hook 'org-display-inline-images)
-      (org-babel-do-load-languages
-       'org-babel-load-languages
-       '((R . t)
-         (latex . t)
-         (python . t)
-         (ipython . t)
-         (shell . t)))))
-    ;; ================ org-agenda =================
-    (setq org-directory "~/Dropbox/org")
-    (setq org-agenda-files
-          '("~/Dropbox/org/BeOrg/inbox.org"
-            "~/Dropbox/org/BeOrg/projects.org"
-            "~/Dropbox/org/BeOrg/todo.org"
-            "~/Dropbox/org/BeOrg/notes.org"
-            "~/Dropbox/org/appt_gcal.org"
-            "~/Dropbox/org/honey_gcal.org"
-            "~/Dropbox/org/school_gcal.org"))
-    (setq org-agenda-window-setup (quote current-window))
-    (setq org-deadline-warning-days 7)
-    (setq org-agenda-skip-scheduled-if-done t)
-    (setq org-agenda-skip-deadline-if-done t)
-    ;; ================ org-todo ====================
-    (setq org-todo-keywords
-          '((sequence "TODO(t)" "IN-PROGRESS(i)" "|" "DONE(d)")))
-    (setq org-todo-keyword-faces
-          '(("TODO" :foreground "orange red" :weight bold)
-            ("IN-PROGRESS" :foreground "#268bd2" :weight bold)))
-    ;; =============== org-capture ==================
-    (setq org-capture-templates
-          '(("i" "Inbox" entry (file "~/Dropbox/org/BeOrg/inbox.org")
-             "* %?\n:PROPERTIES:\n:CREATED: %u\n:END:")
-            ("a" "Appointment" entry (file  "~/Dropbox/org/appt_gcal.org")
-             "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
-            ("h" "Honey" entry (file  "~/Dropbox/org/honey_gcal.org")
-             "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
-            ("s" "School" entry (file  "~/Dropbox/org/school_gcal.org")
-             "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")))
-    ;; =============== org-refile ==================
-    (setq org-refile-targets
-          '(("~/Dropbox/org/BeOrg/todo.org" :level . 1)
-            ("~/Dropbox/org/BeOrg/notes.org" :level . 1)
-            ("~/Dropbox/org/someday.org" :level . 1)
-            ("~/Dropbox/org/BeOrg/projects.org" :level . 2)))
-    (setq org-link-frame-setup (quote ((vm . vm-visit-folder-other-frame)
-                                       (vm-imap . vm-visit-imap-folder-other-frame)
-                                       (gnus . org-gnus-no-new-news)
-                                       (file . find-file)
-                                       (wl . wl-other-frame))))
-    (setq org-archive-location (concat "~/Dropbox/org/archive/archive-" (format-time-string "%Y%m" (current-time)) ".org_archive::"))
-    (setq org-reverse-note-order t)
-    (setq org-confirm-babel-evaluate nil)
-    ;; (setq org-src-window-setup 'current-window)
-    (setq org-src-fontify-natively t)
-    (setq org-src-tab-acts-natively t)
-    (setq org-src-preserve-indentation t)
-
+  :ensure t
+  :bind (("C-c l" . org-store-link)
+         ("C-c a" . org-agenda)
+         ("C-c b" . org-iswitchb)
+         ("C-c p" . org-set-property)
+         ("C-c c" . org-capture)
+         ("C-c t" . org-babel-tangle))
+  :config
+  ;; When add files recursively to the agenda
+  ;; (load-library "find-lisp")
+  ;; (setq org-agenda-files (find-lisp-find-files "~/Dropbox/Emacs" "\.org$"))
+  ;; (add-hook 'org-mode-hook 'org-display-inline-images)
+  (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
+  (add-hook 'org-babel-after-execute-hook 'org-display-inline-images 'append)
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((R . t)
+     (latex . t)
+     (python . t)
+     (ipython . t)
+     (shell . t))))
 
 (add-hook 'org-capture-mode-hook 'delete-other-windows)
 (add-hook 'org-mode-hook
@@ -685,7 +638,56 @@ skip typos you don't want to fix with 'SPC', and you can abort completely with '
 	  org-fontify-quote-and-verse-blocks t
 	  org-src-window-setup 'current-window
 	  org-highlight-latex-and-related '(latex)
-	  org-log-done 'time)
+	  org-log-done 'time
+      org-confirm-babel-evaluate nil
+      org-src-fontify-natively t
+      org-src-tab-acts-natively t
+      org-src-preserve-indentation t)
+;; (setq org-src-window-setup 'current-window)
+
+(setq org-capture-templates
+      '(("i" "Inbox" entry (file "~/Dropbox/org/BeOrg/inbox.org")
+         "* %?\n:PROPERTIES:\n:CREATED: %u\n:END:")
+        ("a" "Appointment" entry (file  "~/Dropbox/org/appt_gcal.org")
+         "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
+        ("h" "Honey" entry (file  "~/Dropbox/org/honey_gcal.org")
+         "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")
+        ("s" "School" entry (file  "~/Dropbox/org/school_gcal.org")
+         "* %?\n\n%^T\n\n:PROPERTIES:\n\n:END:\n\n")))
+
+(setq org-refile-targets
+      '(("~/Dropbox/org/BeOrg/todo.org" :level . 1)
+        ("~/Dropbox/org/BeOrg/notes.org" :level . 1)
+        ("~/Dropbox/org/someday.org" :level . 1)
+        ("~/Dropbox/org/BeOrg/projects.org" :level . 2)))
+(setq org-link-frame-setup (quote ((vm . vm-visit-folder-other-frame)
+                                   (vm-imap . vm-visit-imap-folder-other-frame)
+                                   (gnus . org-gnus-no-new-news)
+                                   (file . find-file)
+                                   (wl . wl-other-frame))))
+(setq org-archive-location (concat "~/Dropbox/org/archive/archive-"
+                                   (format-time-string "%Y%m" (current-time)) ".org_archive::"))
+(setq org-reverse-note-order t)
+
+(setq org-directory "~/Dropbox/org")
+(setq org-agenda-files
+      '("~/Dropbox/org/BeOrg/inbox.org"
+        "~/Dropbox/org/BeOrg/projects.org"
+        "~/Dropbox/org/BeOrg/todo.org"
+        "~/Dropbox/org/BeOrg/notes.org"
+        "~/Dropbox/org/appt_gcal.org"
+        "~/Dropbox/org/honey_gcal.org"
+        "~/Dropbox/org/school_gcal.org"))
+(setq org-agenda-window-setup (quote current-window))
+(setq org-deadline-warning-days 7)
+(setq org-agenda-skip-scheduled-if-done t)
+(setq org-agenda-skip-deadline-if-done t)
+
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "IN-PROGRESS(i)" "|" "DONE(d)")))
+(setq org-todo-keyword-faces
+      '(("TODO" :foreground "orange red" :weight bold)
+        ("IN-PROGRESS" :foreground "#268bd2" :weight bold)))
 
 (use-package org-bullets
   :ensure t
@@ -714,6 +716,7 @@ skip typos you don't want to fix with 'SPC', and you can abort completely with '
   (add-hook 'org-mode-hook 'turn-on-org-cdlatex))
 
 ;; see org-ref for use of these variables
+(setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
 (setq reftex-default-bibliography '("~/Dropbox/bibliography/references.bib"))
 (setq org-ref-default-bibliography '("~/Dropbox/bibliography/references.bib")
       org-ref-pdf-directory "~/Dropbox/bibliography/papers/")
@@ -743,10 +746,9 @@ skip typos you don't want to fix with 'SPC', and you can abort completely with '
         (lambda (fpath)
           (call-process "open" nil 0 nil "-a" "/Applications/Skim.app" fpath)))
   (setq helm-bibtex-notes-template-multiple-files
-      (format
-       "#+TITLE: Notes on: ${title}\n#+INTERLEAVE_PDF: ~/Dropbox/Bibliography/Papers/${=key=}.pdf\n#+PUB_AUTHORS:\t${author}\n#+PUB_YEAR: \t${year}\n\n")))
-
-(progn
+        (format
+         "#+TITLE: Notes on: ${title}\n#+INTERLEAVE_PDF: ~/Dropbox/Bibliography/Papers/${=key=}.pdf\n#+PUB_AUTHORS:\t${author}\n#+PUB_YEAR: \t${year}\n\n"))
+  :config
   (setq bibtex-completion-pdf-symbol "f")
   (setq bibtex-completion-notes-symbol "n")
   (setq bibtex-completion-display-formats
@@ -779,6 +781,14 @@ skip typos you don't want to fix with 'SPC', and you can abort completely with '
      (ess-R-fl-keyword:F&T)
      (ess-R-fl-keyword:%op%)))
 
+(use-package ob-ipython
+  :ensure t
+  :init
+  (require 'scimax-org-babel-ipython-upstream)
+  :config
+  (setq python-shell-interpreter "ipython"
+        python-shell-interpreter-args "-i --simple-prompt"))
+
 (use-package elpy
   :ensure t
   :pin elpy
@@ -786,18 +796,10 @@ skip typos you don't want to fix with 'SPC', and you can abort completely with '
   (elpy-enable)
   (add-hook 'python-mode-hook 'elpy-mode)
   (add-hook 'inferior-python-mode-hook 'python-shell-switch-to-shell)
-  (setq python-shell-interpreter "python"
-	python-shell-interpreter-args "-i")
-  ;; (setq python-shell-interpreter "ipython"
-      ;; 	  python-shell-interpreter-args "-i --simple-prompt")
-      )
-;; (elpy-enable)
-;; (setq python-shell-completion-native-ensure t)
-;; (setq python-shell-interpreter "ipython"
-;;        python-shell-interpreter-args "-i")
-
-;; (when (executable-find "ipython")
-;;   (setq python-shell-interpreter "ipython"))
+  (setq python-shell-unbuffered nil)
+  (setq python-shell-prompt-detect-failure-warning nil)
+  (setq python-shell-prompt-detect-enabled nil)
+  (setq python-shell-completion-native-enable nil))
 
 (use-package anaconda-mode
   :ensure t

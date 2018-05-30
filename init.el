@@ -1,14 +1,7 @@
 (package-initialize)
 
-(setq scimax-dir "~/.emacs.d/scimax")
-(add-to-list 'load-path "~/.emacs.d/scimax")
-
-(setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f"))
-
 (require 'org)
 (require 'ob-tangle)
-(require 'ob-ipython)
-(require 'scimax-org-babel-ipython-upstream)
 (require 'org-ref)
 
 (setq init-dir (file-name-directory (or load-file-name (buffer-file-name))))
